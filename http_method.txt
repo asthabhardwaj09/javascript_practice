@@ -1,0 +1,236 @@
+https://www.flipkart.com/aadi-sneakers-men/p/itmfbbd674083772?pid=SHOGMKFZZB6YP5PQ&lid=LSTSHOGMKFZZB6YP5PQUVSYK0&marketplace=FLIPKART&q=shoes&store=osp&srno=s_1_3&otracker=AS_Query_TrendingAutoSuggest_2_0_na_na_na&otracker1=AS_Query_TrendingAutoSuggest_2_0_na_na_na&fm=search-autosuggest&iid=62c823ec-601c-45e4-892f-2aa9c6fe3652.SHOGMKFZZB6YP5PQ.SEARCH&ppt=sp&ppn=sp&ssid=91ke5b4grk0000001777055080175&qH=b0a8b6f820479900&ov_redirect=true
+
+
+
+
+“Data in this URL is sent via multiple query parameters. The main user input is q=shoes, while others like pid, store, etc. provide additional context.”
+
+
+
+
+
+🎯 One-line memory trick:
+
+👉 Data = all values after ? (key-value pairs)
+👉 Main data = what user actually searched (q=shoes)
+
+
+
+Interviewer: which http method will you choose when designing search API?
+
+
+“For designing a search API, I would primarily use the GET method because search is a read-only operation and should not modify server state.
+GET requests are idempotent, cacheable, and allow query parameters, which makes them suitable for filtering and easy to share or bookmark.
+
+However, if the search involves very complex filters or large payloads that exceed URL length limits, I would use POST and send the data in the request body.”
+
+
+
+If interviewer asks “why not always POST?”
+
+
+“POST is not preferred by default because it is not cacheable like GET and does not provide the same level of URL visibility and shareability. The choice depends on practicality, not security.”
+
+
+
+{
+  "filters": {
+    "price": { "min": 1000, "max": 5000 },
+    "brand": ["Nike", "Adidas"],
+    "rating": 4,
+    "colors": ["red", "blue", "black"]
+  }
+}
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+
+
+
+🧠 Why GET is preferred for Search API
+
+
+1️⃣ Read-only (sabse easy)
+
+👉 Search sirf data dekhne ke liye hota hai, change nahi karta
+
+Example:
+
+GET /products?name=shoes
+Server se data mila ✔️
+Database me kuch change nahi hua ✔️
+
+
+2️⃣ Idempotent (thoda important concept)
+
+👉 Same request → same result (no side effects)
+
+Example:
+
+GET /products?name=shoes
+GET /products?name=shoes
+GET /products?name=shoes
+
+👉 3 baar call karo →
+
+Data same milega
+Kuch extra create/update/delete nahi hoga
+
+
+3️⃣ Cacheable (speed fast ho jati hai ⚡)
+
+👉 Browser ya CDN response ko store (cache) kar sakta hai
+
+Example:
+
+Tumne search kiya: shoes
+Next time same search → server hit nahi karega
+👉 directly cached result de dega → faster
+
+
+4️⃣ Query params use kar sakte ho (easy URL)
+
+👉 Data URL me hi bhej sakte ho
+
+Example:
+
+GET /products?name=shoes&price=1000
+
+👉 Benefits:
+
+Copy-paste/share kar sakte ho
+Bookmark kar sakte ho
+
+
+
+
+
+
+//__________________________________________________________________
+
+
+
+
+🔥 1. req.query vs req.params
+
+
+✅ req.query (from URL after ?)
+
+
+👉 Used for filters / search / optional data
+
+Example:
+/products?q=shoes&category=sports
+app.get("/products", (req, res) => {
+  console.log(req.query);
+});
+
+👉 Output:
+
+{
+  q: "shoes",
+  category: "sports"
+}
+
+
+✅ req.params (from URL path)
+
+👉 Used for specific resource identification
+
+Example:
+/products/123
+app.get("/products/:id", (req, res) => {
+  console.log(req.params);
+});
+
+👉 Output:
+
+{
+  id: "123"
+}
+
+
+
+
+🎯 Interview answer:
+
+“req.query is used for query parameters like search and filters, while req.params is used for dynamic route values like IDs to fetch a specific resource.
+
+
+
+🔥 2. Validation of query params (VERY IMPORTANT)
+
+👉 Never trust user input ⚠️
+
+❌ Without validation
+
+app.get("/products", (req, res) => {
+  const page = req.query.page;
+  // user can send anything →    crash/bug risk
+});
+
+
+✅ Basic validation (manual)
+
+
+app.get("/products", (req, res) => {
+  const { q, page } = req.query;
+
+  if (!q) {
+    return res.status(400).send("Search query is required");
+  }
+
+  if (page && isNaN(page)) {
+    return res.status(400).send("Page must be a number");
+  }
+
+  res.send("Valid request");
+});
+
+
+
+✅ Using validator (best practice)
+
+
+
+Using Joi:
+
+const Joi = require("joi");
+
+const schema = Joi.object({
+  q: Joi.string().required(),
+  page: Joi.number().optional()
+});
+
+app.get("/products", (req, res) => {
+  const { error } = schema.validate(req.query);
+
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+
+  res.send("Valid request");
+});
+
+
+
+🎯 Interview answer:
+
+“We validate query parameters to ensure correct data types and required fields. This can be done manually or using libraries like Joi to prevent invalid or malicious input.”
+
+
+
+
+                   Feature	                       req.query	                        req.params
+Where it comes from	After ?	URL path
+Use case	Search, filters	Specific item
+Example	?q=shoes	/products/123
+
+
+
+
+
+
