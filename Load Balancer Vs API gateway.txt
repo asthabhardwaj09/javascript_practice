@@ -1,0 +1,50 @@
+Load Balancer Vs API gateway
+
+
+“A Load Balancer and an API Gateway solve different problems in a distributed system.
+
+A Load Balancer sits in front of servers and distributes incoming traffic across multiple instances to ensure high availability, fault tolerance, and better performance.
+
+An API Gateway sits in front of backend services and acts as a single entry point for clients. It handles request routing to different services and adds features like authentication, rate limiting, logging, and request/response transformation.
+
+In short, a load balancer focuses on traffic distribution, while an API gateway focuses on API management and control.”
+
+
+//----------------------------------------------------------
+
+
+Client → API Gateway → Load Balancer → Servers
+Step-by-step:
+API Gateway
+checks auth (JWT etc.)
+applies rate limit
+decides which service (orders, users, products)
+Load Balancer
+picks which server instance to send request to
+Server (Node/Express)
+processes request
+returns response
+
+👉 ✔️ This is a perfect interview explanation
+
+
+
+//----------------------------------------------------------
+
+
+👉 API Gateway = “Which service?”
+👉 Load Balancer = “Which server?
+
+
+
+//----------------------------------------------------------
+
+
+
+“Rate limiting is a technique used to restrict the number of requests a client can make to an API within a specific time window. It helps prevent abuse, ensures fair usage, and protects the server from overload.”
+
+
+//----------------------------------------------------------
+
+
+“Yes, services represent different domains like product, cart, or user. In small applications they can exist in a single server, but in large-scale systems they are separated into independent services, each running on its own set of servers for scalability and maintainability.”

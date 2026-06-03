@@ -1,0 +1,85 @@
+How do you secure your APIs?
+
+
+
+
+“I secure APIs using multiple layers: authentication and authorization, input validation, rate limiting, secure transport with HTTPS, and protecting against common attacks like XSS, CSRF, and injection. I also follow best practices like using environment variables, proper error handling, and logging
+
+
+
+1. Authentication (Who are you?)
+
+Verify user identity
+
+JWT (access + refresh tokens)
+OAuth (for Google login etc.)
+
+Example:
+
+const token = req.headers.authorization;
+
+
+2. Authorization (What can you do?)
+
+👉 Role-based access control (RBAC)
+
+Admin → can delete users
+User → cannot
+
+
+3. Input Validation (VERY IMPORTANT)
+
+👉 Never trust client input
+
+Using Joi or manual checks:
+
+if (!email) return res.status(400).send("Invalid input");
+
+
+4. Rate Limiting
+
+👉 Prevent abuse / DDoS
+
+Using express-rate-limit
+
+
+5. HTTPS (Encryption)
+
+👉 Data encrypted in transit
+
+Prevents MITM attacks
+Always use HTTPS in production
+🧹 6. Prevent common attacks
+XSS → sanitize input
+SQL/NoSQL Injection → use safe queries
+CSRF → tokens / same-site cookies
+
+
+
+7. Secure Secrets
+
+👉 Never hardcode
+
+Use .env
+Store API keys securely
+
+
+8. Logging & Monitoring
+
+👉 Track suspicious activity
+
+🎯 Real-world MERN flow
+Client → API Gateway (auth, rate limit)
+       → Express (validation, auth check)
+       → DB
+🔥 Strong interview version
+
+
+
+“I follow a layered approach: JWT-based authentication, role-based authorization, input validation using libraries like Joi, rate limiting to prevent abuse, HTTPS for secure communication, and protection against common vulnerabilities like XSS and injection. I also manage secrets securely and implement proper logging.”
+
+
+
+🧠 One-line memory
+
+👉 “Auth + Validation + Rate limit + HTTPS = Secure API”

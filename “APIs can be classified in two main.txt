@@ -1,0 +1,53 @@
+“APIs can be classified in two main ways.
+
+
+Based on architecture, the common types are REST, GraphQL, SOAP, and gRPC. REST is the most widely used in web apps, GraphQL is used when clients need flexible data fetching,  is mostly used in legacy enterprise systems, and  is used for high-performance service-to-service communication.
+
+Based on access, APIs can be public, private, or partner APIs, depending on who is allowed to use them.
+
+In MERN applications, we typically use REST APIs.”
+
+
+🌐 Public API
+
+👉 Open for everyone
+Example: Google APIs
+
+🔒 Private API
+
+👉 Used internally in company
+
+🤝 Partner API
+
+👉 Shared with specific partners
+
+
+
+gRPC
+
+Used in:
+Microservices
+Internal communication
+
+
+SOAP
+
+
+Used in:
+Banking systems
+Enterprise apps
+
+
+GraphQL
+
+Why used?
+Avoid over-fetching
+Flexible
+
+
+REST
+
+Why used?
+Simple
+Scalable
+Widely adopted
