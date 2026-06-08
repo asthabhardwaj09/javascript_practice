@@ -31,18 +31,18 @@ student2(student1(1,2)) //wrong approach
 // let user1 = new Object()
 
 
-// function outer(){
-//     let value=2
+function outer(){
+    let value=2
 
-//     function inner(){
-//         value2=3
-//         console.log(value+value2)
-//     }
-//     inner()
-// }
+    function inner(){
+        value2=3
+        console.log(value+value2)
+    }
+    inner()
+}
 
-// let total=outer()
-// total()
+let total=outer()
+total()
 
 
 
